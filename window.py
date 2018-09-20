@@ -20,7 +20,7 @@ ship_y = (display_height * 0.8)
 
 game_display = pygame.display.set_mode((display_width,display_width))
 
-pygame.display.set_caption('a bit racey')
+pygame.display.set_caption('Hyper-Space RUSH')
 clock = pygame.time.Clock()
 
 running = True
