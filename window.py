@@ -31,13 +31,24 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             #turn left
-            if event.key == pygame.K_a or pygame.K_LEFT:
+            if event.key == pygame.K_LEFT:
                 print("ship move left")
+                ship_x_change = -5
+
+            elif event.key == pygame.K_RIGHT:
+                print("ship move right")
+                ship_x_change = 5
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                ship_x_change = 0
+
 
         
         #print(event)
 
-    
+    x = ship_x_change + ship_x
+
     game_display.fill(white)
     ship(ship_x, ship_y)
     pygame.display.flip()
