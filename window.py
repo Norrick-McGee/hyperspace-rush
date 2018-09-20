@@ -28,6 +28,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        if event.type == pygame.KEYDOWN:
+            #turn left
+            if event.key == pygame.K_a or pygame.K_LEFT:
+                print("ship move left")
+
         
         #print(event)
 
