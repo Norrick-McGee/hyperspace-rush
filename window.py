@@ -23,6 +23,8 @@ game_display = pygame.display.set_mode((display_width,display_width))
 pygame.display.set_caption('Hyper-Space RUSH')
 clock = pygame.time.Clock()
 
+ship_x_change = 0
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -47,7 +49,7 @@ while running:
         
         #print(event)
 
-    x = ship_x_change + ship_x
+    ship_x = ship_x_change + ship_x
 
     game_display.fill(white)
     ship(ship_x, ship_y)
