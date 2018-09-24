@@ -10,12 +10,15 @@ red = (255, 0 , 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
-game_display = pygame.display.set_mode((display_width,display_width))
+game_display = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Hyper-Space RUSH')
 clock = pygame.time.Clock()
 
 #loads my flawless hand-drawn ship image
-ship_img =pygame.image.load('purp-triangle.png')  
+ship_img =pygame.image.load('purp-triangle.png') 
+
+ship_height = 27
+ship_width = 22
 
 
 def draw_ship(x,y):
@@ -71,17 +74,24 @@ def game_loop():
         ship_x = ship_x_change + ship_x
         ship_y = ship_y_change + ship_y 
 
-<<<<<<< HEAD
+        if ship_x < ship_width * -1:
+            ship_x = display_width - 5
+        elif ship_x > display_width:
+            ship_x = ship_width * -1 
+
+        
+        if ship_y > display_height: 
+            ship_y = ship_height * -1
+        elif ship_y < ship_height * -1:
+            ship_y = display_height
+
+
+
         game_display.fill(black)
         draw_ship(ship_x, ship_y)
 
 
 
-=======
-
-        game_display.fill(black)    #paints background black 
-        ship(ship_x, ship_y)        #paints ship to current position
->>>>>>> f692cadd9a414476971f1b0b077b0d3f5de53bcc
         pygame.display.flip()
         clock.tick(60)
 
