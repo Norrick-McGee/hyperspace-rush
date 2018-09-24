@@ -1,4 +1,5 @@
 import pygame
+import time
 pygame.init()
 
 display_height = 600
@@ -21,7 +22,7 @@ ship_height = 27
 ship_width = 22
 
 def crash():
-    message_display()
+    message_display("oh dear, you're dead")
 
 def text_objects(text, font):
     text_surface = font.render(text, True, white)
@@ -35,6 +36,12 @@ def message_display(text):
     text_rectangle.center = (display_width * 0.40, display_height *0.40)
     # prints a Text Surface and text rectangle to the screen
     game_display.blit(text_surface, text_rectangle)
+
+    pygame.display.flip()
+
+    time.sleep(2)
+
+    game_loop()
 
 def draw_ship(x,y):
     game_display.blit(ship_img, (x,y))
@@ -96,7 +103,10 @@ def game_loop():
 
         
         if ship_y > display_height: 
-            ship_y = ship_height * -1
+            ship_x_change = 0
+            ship_y_change = 0
+            crash()
+            #ship_y = ship_height * -1
         elif ship_y < ship_height * -1:
             ship_y = display_height
 
