@@ -20,6 +20,21 @@ ship_img =pygame.image.load('purp-triangle.png')
 ship_height = 27
 ship_width = 22
 
+def crash():
+    message_display()
+
+def text_objects(text, font):
+    text_surface = font.render(text, True, white)
+    return text_surface, text_surface.get_rect()
+
+def message_display(text):
+    #creates a font + font size 
+    large_text = pygame.font.Font('freesansbold.ttf', 115)
+    text_surface, text_rectangle = text_objects(text, large_text)
+    #creates a reference for the location of the center of Text rect
+    text_rectangle.center = (display_width * 0.40, display_height *0.40)
+    # prints a Text Surface and text rectangle to the screen
+    game_display.blit(text_surface, text_rectangle)
 
 def draw_ship(x,y):
     game_display.blit(ship_img, (x,y))
