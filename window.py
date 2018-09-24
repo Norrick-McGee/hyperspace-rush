@@ -71,11 +71,17 @@ def game_loop():
         ship_x = ship_x_change + ship_x
         ship_y = ship_y_change + ship_y 
 
+<<<<<<< HEAD
         game_display.fill(black)
         draw_ship(ship_x, ship_y)
 
 
 
+=======
+
+        game_display.fill(black)    #paints background black 
+        ship(ship_x, ship_y)        #paints ship to current position
+>>>>>>> f692cadd9a414476971f1b0b077b0d3f5de53bcc
         pygame.display.flip()
         clock.tick(60)
 
