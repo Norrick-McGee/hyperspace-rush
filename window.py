@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 ship_img =pygame.image.load('purp-triangle.png')  
 
 
-def ship(x,y):
+def draw_ship(x,y):
     game_display.blit(ship_img, (x,y))
 
 
@@ -32,11 +32,11 @@ def game_loop():
     ship_x_change = 0
     ship_y_change = 0
 
-    running = True
-    while running:
+    game_running = True
+    while game_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                game_running = False
 
             if event.type == pygame.KEYDOWN:
                 #turn left
@@ -71,8 +71,11 @@ def game_loop():
         ship_x = ship_x_change + ship_x
         ship_y = ship_y_change + ship_y 
 
-        game_display.fill(white)
-        ship(ship_x, ship_y)
+        game_display.fill(black)
+        draw_ship(ship_x, ship_y)
+
+
+
         pygame.display.flip()
         clock.tick(60)
 
