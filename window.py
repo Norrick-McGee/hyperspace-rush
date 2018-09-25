@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 pygame.init()
 
 display_height = 600
@@ -26,6 +27,10 @@ ship_img =pygame.image.load('purp-triangle.png')
 
 ship_height = 27
 ship_width = 22
+
+def collision_object(o_x, o_y, o_w, o_h, o_color):
+    pygame.draw.rect(game_display, color, [o_x, o_y, o_w, o_h]
+
 
 def crash():
     message_display("oh dear, you're dead")
@@ -149,12 +154,8 @@ def game_loop():
         elif ship_y < ship_height * -1:
             ship_y = display_height
 
-
-
         game_display.fill(black)
         draw_ship(ship_x, ship_y)
-
-
 
         pygame.display.flip()
         clock.tick(60)
