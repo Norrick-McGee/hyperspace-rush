@@ -5,6 +5,12 @@ pygame.init()
 display_height = 600
 display_width = 800
 
+
+up_key = pygame.K_w
+down_key = pygame.K_s
+left_key = pygame.K_a
+right_key = pygame.K_d 
+
 black = (0,0,0)
 white = (255,255,255)
 red = (255, 0 , 0)
@@ -49,6 +55,13 @@ def draw_ship(x,y):
 
 def game_loop():
 
+    key = pygame.key.get_pressed()
+
+    moving_down = key[down_key]
+    moving_up = key[up_key]
+    moving_left = key[left_key]
+    moving_right = key[right_key]
+
     #Sets the default Coord of the ship. 
     ship_x = (display_width * 0.45)
     ship_y = (display_height * 0.8)
@@ -65,33 +78,58 @@ def game_loop():
 
             if event.type == pygame.KEYDOWN:
                 #turn left
-                if event.key == pygame.K_a:
+                if event.key == left_key:
                     print("ship move left")
-                    ship_x_change -= 5
+                    #ship_x_change -= 5
+                    moving_left = True
 
-                if event.key == pygame.K_d:
+                if event.key == right_key:
                     print("ship move right")
-                    ship_x_change += 5
-                if event.key == pygame.K_s:
+                    #ship_x_change += 5
+                    moving_right = True
+                if event.key == down_key:
                     print("ship move down")
-                    ship_y_change += 5
-                if event.key == pygame.K_w:
+                    #ship_y_change += 5
+                    moving_down = True
+                if event.key == up_key:
                     print("ship move up")
-                    ship_y_change += -5
+                    #ship_y_change += -5
+                    moving_up = True 
                 
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    ship_x_change = ship_x_change + 5
-                if event.key == pygame.K_d:
-                    ship_x_change = ship_x_change - 5
-                if event.key == pygame.K_w:
-                    ship_y_change += 5
-                if event.key == pygame.K_s:
-                    ship_y_change -= 5
+                if event.key == left_key:
+                    #ship_x_change = ship_x_change + 5
+                    moving_left = False
+                if event.key == right_key:
+                    #ship_x_change = ship_x_change - 5
+                    moving_right = False
+                if event.key == up_key:
+                    #ship_y_change += 5
+                    moving_up = False
+                if event.key == down_key:
+                    #ship_y_change -= 5
+                    moving_down = False
+
 
             
-            #print(event)
+        ship_x_change = 0
+        ship_y_change = 0 
+        if moving_left and moving_right:
+            ship_x_change += 0
+        elif moving_left:
+            ship_x_change += -5
+        elif moving_right:
+            ship_x_change += 5
+        if moving_up and moving_down:
+            ship_y_change += 0
+        elif moving_down:
+            ship_y_change += 5
+        elif moving_up:
+            ship_y_change += -5
+
+        
+        
 
         ship_x = ship_x_change + ship_x
         ship_y = ship_y_change + ship_y 
@@ -103,9 +141,9 @@ def game_loop():
 
         
         if ship_y > display_height: 
-            ship_x_change = 0
             ship_y_change = 0
-            crash()
+            
+            game_running = False 
             #ship_y = ship_height * -1
         elif ship_y < ship_height * -1:
             ship_y = display_height
