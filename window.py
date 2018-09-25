@@ -36,7 +36,7 @@ def text_objects(text, font):
 
 def message_display(text):
     #creates a font + font size 
-    large_text = pygame.font.Font('freesansbold.ttf', 115)
+    large_text = pygame.font.Font('freesansbold.ttf', 80)
     text_surface, text_rectangle = text_objects(text, large_text)
     #creates a reference for the location of the center of Text rect
     text_rectangle.center = (display_width * 0.40, display_height *0.40)
@@ -74,7 +74,8 @@ def game_loop():
     while game_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_running = False
+                pygame.quit()
+                quit()
 
             if event.type == pygame.KEYDOWN:
                 #turn left
@@ -143,7 +144,7 @@ def game_loop():
         if ship_y > display_height: 
             ship_y_change = 0
             
-            game_running = False 
+            crash()
             #ship_y = ship_height * -1
         elif ship_y < ship_height * -1:
             ship_y = display_height
@@ -158,6 +159,7 @@ def game_loop():
         pygame.display.flip()
         clock.tick(60)
 
-game_loop()  
+game_loop()
+  
 pygame.quit()
 quit()
