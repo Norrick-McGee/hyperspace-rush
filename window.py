@@ -29,11 +29,11 @@ ship_height = 27
 ship_width = 22
 
 def collision_object(o_x, o_y, o_w, o_h, o_color):
-    pygame.draw.rect(game_display, color, [o_x, o_y, o_w, o_h]
+    pygame.draw.rect(game_display, color, [o_x, o_y, o_w, o_h])
 
 
 def crash():
-    message_display("oh dear, you're dead")
+   message_display("oh dear, you're dead")
 
 def text_objects(text, font):
     text_surface = font.render(text, True, white)
@@ -44,7 +44,7 @@ def message_display(text):
     large_text = pygame.font.Font('freesansbold.ttf', 80)
     text_surface, text_rectangle = text_objects(text, large_text)
     #creates a reference for the location of the center of Text rect
-    text_rectangle.center = (display_width * 0.40, display_height *0.40)
+    text_rectangle.center = (display_width * 0.50, display_height *0.40)
     # prints a Text Surface and text rectangle to the screen
     game_display.blit(text_surface, text_rectangle)
 
