@@ -28,8 +28,20 @@ ship_img =pygame.image.load('purp-triangle.png')
 ship_height = 27
 ship_width = 22
 
-def collision_object(o_x, o_y, o_w, o_h, o_color):
-    pygame.draw.rect(game_display, color, [o_x, o_y, o_w, o_h])
+
+class collision_object(o_h, o_w, o_x, o_y, sprite):
+
+    #Sprite size reference
+    #red ship W x H : 18x21
+    #1 up W x H : 19x18
+    #Asteroid W x H : 24 x 21
+
+    def __init__(self):
+        height = o_h
+        width = o_w
+        x_position = o_x
+        y_position = o_y
+
 
 
 def crash():
