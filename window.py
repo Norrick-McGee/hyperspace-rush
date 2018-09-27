@@ -29,25 +29,36 @@ ship_height = 27
 ship_width = 22
 
 
-class collision_object(o_h, o_w, o_x, o_y, sprite, invert_x = False):
+#TO BE ADDED 
+#Score 
+#More Enemies for Higher Score
+#Max 3 lives
+#Extra Lives Object logic
+#Extra Lives that spawn based on score
+#Extra lives generate some score, double points if excess
+
+
+class collision_object:
 
     #Sprite size reference
-    #red ship W x H : 18x21
-    #1 up W x H : 19x18
+    #red ship W x H : 18 x 21
+    #1 up W x H : 19 x 18
     #Asteroid W x H : 24 x 21
 
-    def __init__(self):
-        self.height = o_h
-        self.width = o_w
+    def __init__(self, o_x, o_y, sprite, invert_x = False):
         self.x_position = o_x
         self.y_position = o_y
         if sprite == "red_ship":
+            self.height = 21
+            self.width = 18
             self.speed_x = 0
             self.speed_y = 7
             self.image = pygame.image.load('red_ship.png')
         elif sprite == "asteroid":
+            self.width = 24
+            self.height = 21
             self.randomize_speeds()
-            self.image = pygame.image.load('asteroid.png')
+            self.image = pygame.image.load('asteroid2.png')
             #invert x is True when the asteroid will be moving from the Right 
             #side of the screen 
             if invert_x == True:
@@ -64,6 +75,10 @@ class collision_object(o_h, o_w, o_x, o_y, sprite, invert_x = False):
     def redraw(self):
 
         game_display.blit(self.image, (self.x_position, self.y_position))
+
+    def update(self):
+        self.x_position = self.x_position + self.speed_x
+        self.y_position += self.speed_y
 
 
 
@@ -89,8 +104,8 @@ def message_display(text):
 
     game_loop()
 
-def draw_ship(x,y):
-    game_display.blit(ship_img, (x,y))
+def draw_ship(x):
+    game_display.blit(ship_img, x)
 
 
 def game_loop():
@@ -101,6 +116,11 @@ def game_loop():
     moving_up = key[up_key]
     moving_left = key[left_key]
     moving_right = key[right_key]
+
+    #creates enemy object and adds it to Enemy list
+    asteroid1 = collision_object(10, 10, "asteroid")
+    enemy_list = []
+    enemy_list.append(asteroid1)
 
     #Sets the default Coord of the ship. 
     ship_x = (display_width * 0.45)
@@ -190,7 +210,16 @@ def game_loop():
             ship_y = display_height
 
         game_display.fill(black)
-        draw_ship(ship_x, ship_y)
+        #draws all enemy objets, and checks for collisions. 
+        for enemy in enemy_list:
+            enemy.redraw()
+            #enemy.check_collision(ship_x, ship_y, ship_invuln)
+            #if enemy.has_left_screen:
+                #spawns a new enemy if current has left screen. 
+                #enemy.recreate()
+            #this will update Enemy X Y postion based on Speed, or delete object if it has collided or left screen.
+            enemy.update()
+        draw_ship((ship_x, ship_y))
 
         pygame.display.flip()
         clock.tick(60)
