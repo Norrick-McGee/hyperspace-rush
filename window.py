@@ -42,7 +42,7 @@ class collision_object:
 
     #Sprite size reference
     #red ship W x H : 18 x 21
-    #1 up W x H : 19 x 18
+    #1 up W x H : 50 x 50
     #Asteroid W x H : 24 x 21
 
     def __init__(self, o_x, o_y, sprite, invert_x = False):
@@ -58,7 +58,7 @@ class collision_object:
             self.width = 24
             self.height = 21
             self.randomize_speeds()
-            self.image = pygame.image.load('asteroid2.png')
+            self.image = pygame.image.load('asteroid4.png')
             #invert x is True when the asteroid will be moving from the Right 
             #side of the screen 
             if invert_x == True:
