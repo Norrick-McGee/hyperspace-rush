@@ -30,6 +30,7 @@ ship_width = 22
 
 
 #TO BE ADDED 
+#Collision only works on top left corner of ship, FIX
 #Score 
 #More Enemies for Higher Score
 #Max 3 lives
@@ -58,7 +59,7 @@ class collision_object:
             self.width = 24
             self.height = 21
             self.randomize_speeds()
-            self.image = pygame.image.load('asteroid4.png')
+            self.image = pygame.image.load('asteroid_small.png')
             #invert x is True when the asteroid will be moving from the Right 
             #side of the screen 
             if invert_x == True:
@@ -80,7 +81,32 @@ class collision_object:
         self.x_position = self.x_position + self.speed_x
         self.y_position += self.speed_y
 
+    def has_left_screen(self, window_x, window_y):
+        if self.x_position > window_x:
+            return True
+        elif self.x_position < -1 * self.width:
+            return True
+        elif self.y_position > self.height + window_y:
+            return True 
+        else:
+            return False
 
+
+    def recreate(self):
+        self.x_position = -1 * self.width
+        self.y_position = -1 *self.height
+        self.randomize_speeds()
+
+    def check_collision(self, obj_x, obj_y, obj_invuln = False):
+        in_x_range = False
+        in_y_range = False 
+        if obj_x >= self.x_position and obj_x <= self.x_position + self.width:
+            in_x_range = True
+        if obj_y >= self.y_position and obj_y <= self.y_position + self.height:
+            in_y_range = True 
+
+        if in_x_range and in_y_range: 
+            return True
 
 def crash():
    message_display("oh dear, you're dead")
@@ -213,10 +239,11 @@ def game_loop():
         #draws all enemy objets, and checks for collisions. 
         for enemy in enemy_list:
             enemy.redraw()
-            #enemy.check_collision(ship_x, ship_y, ship_invuln)
-            #if enemy.has_left_screen:
+            if enemy.check_collision(ship_x, ship_y, ship_height, ship_width):
+                print("Collision!")
+            if enemy.has_left_screen(display_width, display_height):
                 #spawns a new enemy if current has left screen. 
-                #enemy.recreate()
+                enemy.recreate()
             #this will update Enemy X Y postion based on Speed, or delete object if it has collided or left screen.
             enemy.update()
         draw_ship((ship_x, ship_y))
