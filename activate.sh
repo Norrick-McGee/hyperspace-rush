@@ -1,6 +1,6 @@
 #! /bin/bash
 
 #activate virtuat-env for pygame
-STRING = "/home/norrick/de/pygame/hyperspace-rush/"
+STRING = "/home/norrick/dev/pygame/hyperspace-rush/"
 source "/home/norrick/dev/pygame/pygamenv/bin/activate"
 code $STRING

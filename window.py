@@ -97,13 +97,15 @@ class collision_object:
         self.y_position = -1 *self.height
         self.randomize_speeds()
 
-    def check_collision(self, obj_x, obj_y, obj_invuln = False):
+    def check_collision(self, obj_xs, obj_ys, obj_invuln = False):
         in_x_range = False
         in_y_range = False 
-        if obj_x >= self.x_position and obj_x <= self.x_position + self.width:
-            in_x_range = True
-        if obj_y >= self.y_position and obj_y <= self.y_position + self.height:
-            in_y_range = True 
+        for x_value in obj_xs:
+            if x_value >= self.x_position and x_value <= self.x_position + self.width:
+                in_x_range = True
+        for y_value in obj_ys:
+            if y_value >= self.y_position and y_value <= self.y_position + self.height:
+                in_y_range = True 
 
         if in_x_range and in_y_range: 
             return True
@@ -237,14 +239,17 @@ def game_loop():
 
         game_display.fill(black)
         #draws all enemy objets, and checks for collisions. 
+        ship_xs = (ship_x, ship_x + ship_width)
+        ship_ys = (ship_y, ship_y + ship_height)
         for enemy in enemy_list:
             enemy.redraw()
-            if enemy.check_collision(ship_x, ship_y, ship_height, ship_width):
-                print("Collision!")
+            if enemy.check_collision(ship_xs, ship_ys):
+                crash()
             if enemy.has_left_screen(display_width, display_height):
                 #spawns a new enemy if current has left screen. 
                 enemy.recreate()
             #this will update Enemy X Y postion based on Speed, or delete object if it has collided or left screen.
+            if enemy.check_collision()
             enemy.update()
         draw_ship((ship_x, ship_y))
 
