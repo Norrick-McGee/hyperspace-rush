@@ -30,7 +30,7 @@ ship_width = 22
 
 
 #TO BE ADDED 
-#Score 
+#Score display 
 #More Enemies for Higher Score
 #Max 3 lives
 #Extra Lives Object logic
@@ -42,18 +42,19 @@ class collision_object:
 
     #Sprite size reference
     #red ship W x H : 18 x 21
+    #red ship large : 77 x 66
     #1 up W x H : 50 x 50
-    #Asteroid W x H : 24 x 21
+    #Asteroid_small W x H : 50 x 50
 
     def __init__(self, o_x = 0, o_y = 0, sprite = "random", invert_x = False):
         self.x_position = o_x
         self.y_position = o_y
         if sprite == "red_ship":
-            self.height = 21
-            self.width = 18
+            self.height = 66
+            self.width = 77
             self.speed_x = 0
             self.speed_y = 7
-            self.image = pygame.image.load('red_ship.png')
+            self.image = pygame.image.load('red_ship_large.png')
         elif sprite == "asteroid":
             self.width = 50
             self.height = 50
@@ -169,6 +170,8 @@ def draw_ship(x):
 
 
 def game_loop():
+
+    score = 0.0 
 
     key = pygame.key.get_pressed()
 
@@ -291,7 +294,8 @@ def game_loop():
 
             enemy.update()
         draw_ship((ship_x, ship_y))
-
+        score += 0.1 
+        print(int(score))
         pygame.display.flip()
         clock.tick(60)
 
