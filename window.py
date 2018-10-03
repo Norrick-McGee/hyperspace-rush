@@ -30,7 +30,6 @@ ship_width = 22
 
 
 #TO BE ADDED 
-#Collision BROKE FIX ASAP 
 #Score 
 #More Enemies for Higher Score
 #Max 3 lives
@@ -46,7 +45,7 @@ class collision_object:
     #1 up W x H : 50 x 50
     #Asteroid W x H : 24 x 21
 
-    def __init__(self, o_x, o_y, sprite, invert_x = False):
+    def __init__(self, o_x = 0, o_y = 0, sprite = "random", invert_x = False):
         self.x_position = o_x
         self.y_position = o_y
         if sprite == "red_ship":
@@ -69,6 +68,19 @@ class collision_object:
             self.speed_x = 0
             self.speed_y = 3
 
+        elif sprite =="random":
+            self.random_enemy()
+
+    def random_enemy(self):
+        #list of enemy classes
+        enemy_type = random.choice(["red_ship", "asteroid"])
+        if enemy_type == "asteroid":
+            #add logic to decide if Asteroid starts on left or right here
+            self.__init__(-50, -50, enemy_type)
+        elif enemy_type == "red_ship":
+            position = random.randrange(0, display_width)
+            self.__init__(position,-60, enemy_type)
+        
 
     def width_height(self):
         self.xs = (self.x_position, self.x_position + self.width)
@@ -166,8 +178,8 @@ def game_loop():
     moving_right = key[right_key]
 
     #creates enemy object and adds it to Enemy list
-    asteroid1 = collision_object(10, 10, "asteroid")
-    asteroid2 = collision_object(500, 10, "asteroid")
+    asteroid1 = collision_object()
+    asteroid2 = collision_object()
     enemy_list = []
     enemy_list.append(asteroid1)
     enemy_list.append(asteroid2)
@@ -267,15 +279,15 @@ def game_loop():
                 crash()
             if enemy.has_left_screen(display_width, display_height):
                 #spawns a new enemy if current has left screen. 
-                enemy.recreate()
+                enemy.random_enemy()
             #this will update Enemy X Y postion based on Speed, or delete object if it has collided or left screen.
             for enemy2 in enemy_list:
                 if enemy is not enemy2:
                     if enemy.check_collision(enemy2.x_position, enemy2.y_position, enemy2.width, enemy2.height):
                         #destroy both enemies and recreate them
                         print("Enemy collisions")
-                        enemy.recreate()
-                        enemy2.recreate_invertedX(display_width)
+                        enemy.random_enemy()
+                        enemy2.random_enemy()
 
             enemy.update()
         draw_ship((ship_x, ship_y))
