@@ -168,6 +168,12 @@ def message_display(text):
 def draw_ship(x):
     game_display.blit(ship_img, x)
 
+def score_display(score):
+    score_text = pygame.font.Font('freesansbold.ttf', 10)
+    text_surface, text_rectangle = text_objects(str(score), score_text)
+    text_rectangle.center = (display_width, display_height)
+    game_display.blit(text_surface, text_rectangle)
+
 
 def game_loop():
 
