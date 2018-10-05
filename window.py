@@ -58,12 +58,15 @@ class collision_object:
         elif sprite == "asteroid":
             self.width = 50
             self.height = 50
-            self.randomize_speeds()
+            if invert_x:
+                self.randomize_speeds(False)
+            else:
+                self.randomize_speeds()
             self.image = pygame.image.load('asteroid_small.png')
             #invert x is True when the asteroid will be moving from the Right 
             #side of the screen 
-            if invert_x == True:
-                self.speed_x = self.speed_x * -1 
+            #if invert_x == True:
+                #self.speed_x = self.speed_x * -1 
         elif sprite == "one_up":
             self.image = pygame.image.load('one_up.png')
             self.speed_x = 0
@@ -76,19 +79,29 @@ class collision_object:
         #list of enemy classes
         enemy_type = random.choice(["red_ship", "asteroid"])
         if enemy_type == "asteroid":
-            #add logic to decide if Asteroid starts on left or right here
-            self.__init__(-50, -50, enemy_type)
+            
+            
+            if random.choice([True, False])
+                self.__init__(display_width + 50, -50, enemy_type ,invert_x = True)
+            else:
+                self.__init__(-50, -50, enemy_type)
+
         elif enemy_type == "red_ship":
+            delay_height = random.randrange(-200, -60)
             position = random.randrange(0, display_width)
-            self.__init__(position,-60, enemy_type)
+            self.__init__(position, delay_height, enemy_type)
         
 
     def width_height(self):
         self.xs = (self.x_position, self.x_position + self.width)
         self.ys = (self.y_position, self.y_position + self.height)
 
-    def randomize_speeds(self):
-        self.speed_x = random.randrange(1, 10)
+    def randomize_speeds(self, left = True):
+        if left:
+            self.speed_x = random.randrange(1, 10)
+            
+        else:
+            self.speed_x = random.randrange(-9, 0)
         self.speed_y = random.randrange(3, 10)
 
     def redraw(self):
@@ -170,8 +183,8 @@ def draw_ship(x):
 
 def score_display(score):
     score_text = pygame.font.Font('freesansbold.ttf', 10)
-    text_surface, text_rectangle = text_objects(str(score), score_text)
-    text_rectangle.center = (display_width, display_height)
+    text_surface, text_rectangle = text_objects("SCORE : " +str(score), score_text)
+    text_rectangle.center = (30, 20)
     game_display.blit(text_surface, text_rectangle)
 
 
@@ -187,6 +200,8 @@ def game_loop():
     moving_right = key[right_key]
 
     #creates enemy object and adds it to Enemy list
+    number_of_enemies = 2      
+    
     asteroid1 = collision_object()
     asteroid2 = collision_object()
     enemy_list = []
@@ -280,6 +295,30 @@ def game_loop():
         elif ship_y < ship_height * -1:
             ship_y = display_height
 
+
+
+
+
+
+        if score > 500:
+            number_of_enemies = 9
+        elif score > 450:
+            number_of_enemies = 8
+        elif score > 400:
+            number_of_enemies = 7
+        elif score > 325:
+            number_of_enemies = 6
+        elif score > 250:
+            number_of_enemies = 5
+        elif score > 200: 
+            number_of_enemies = 4
+        elif score > 100: 
+            number_of_enemies = 3
+
+        if number_of_enemies > len(enemy_list):
+            enemy_list.append(collision_object())
+        
+
         game_display.fill(black)
         #draws all enemy objets, and checks for collisions. 
         for enemy in enemy_list:
@@ -302,6 +341,7 @@ def game_loop():
         draw_ship((ship_x, ship_y))
         score += 0.1 
         print(int(score))
+        score_display(int(score))
         pygame.display.flip()
         clock.tick(60)
 
