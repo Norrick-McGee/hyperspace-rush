@@ -22,20 +22,11 @@ game_display = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Hyper-Space RUSH')
 clock = pygame.time.Clock()
 
-#loads my flawless hand-drawn ship image
+
 ship_img =pygame.image.load('purp-triangle.png') 
 
 ship_height = 27
 ship_width = 22
-
-
-#TO BE ADDED 
-#Score display 
-#More Enemies for Higher Score
-#Max 3 lives
-#Extra Lives Object logic
-#Extra Lives that spawn based on score
-#Extra lives generate some score, double points if excess
 
 
 class collision_object:
@@ -49,6 +40,7 @@ class collision_object:
     def __init__(self, o_x = 0, o_y = 0, sprite = "random", invert_x = False):
         self.x_position = o_x
         self.y_position = o_y
+        self.spawned_right = invert_x
         if sprite == "red_ship":
             self.height = 66
             self.width = 77
@@ -78,18 +70,20 @@ class collision_object:
     def random_enemy(self):
         #list of enemy classes
         enemy_type = random.choice(["red_ship", "asteroid"])
+        start_x = random.randrange(0, display_width)
+        right_spawn = False
+        if start_x > display_width * 0.5:
+            right_spawn = True
+        
         if enemy_type == "asteroid":
-            
-            
-            if random.choice([True, False])
-                self.__init__(display_width + 50, -50, enemy_type ,invert_x = True)
+            if right_spawn:
+                self.__init__(display_width + 50, -50, enemy_type,invert_x = True)
             else:
                 self.__init__(-50, -50, enemy_type)
 
         elif enemy_type == "red_ship":
             delay_height = random.randrange(-200, -60)
-            position = random.randrange(0, display_width)
-            self.__init__(position, delay_height, enemy_type)
+            self.__init__(start_x, delay_height, enemy_type)
         
 
     def width_height(self):
@@ -113,7 +107,8 @@ class collision_object:
         self.y_position += self.speed_y
 
     def has_left_screen(self, window_x, window_y):
-        if self.x_position > window_x:
+        
+        if self.x_position > window_x + self.width + 20:
             return True
         elif self.x_position < -1 * self.width:
             return True
